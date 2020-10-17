@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Ticket\TicketRepository;
+use App\Repository\TicketRepository;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

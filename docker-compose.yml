@@ -12,7 +12,7 @@ services:
     depends_on:
       - db
     hostname: simple-ticketing
-    #command: bash -c "./.docker/wait-for-it.sh -t 0 db:3306 && vendor/bin/phinx migrate && apachectl -D FOREGROUND"
+    command: bash -c "./.docker/wait-for-it.sh -t 0 db:3306 && bin/console doctrine:migrations:migrate && apachectl -D FOREGROUND"
     volumes:
       - .:/var/www/html
       - vendor:/var/www/html/vendor

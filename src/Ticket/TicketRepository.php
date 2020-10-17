@@ -2,18 +2,11 @@
 
 namespace App\Ticket;
 
-use Doctrine\DBAL\Connection;
+use App\DBALRepository;
 
-class TicketRepository
+class TicketRepository extends DBALRepository
 {
 	private const TABLE_NAME = 'Ticket';
-
-	private $connection;
-
-	public function __construct(Connection $connection)
-	{
-		$this->connection = $connection;
-	}
 
 	public function save(string $authorId)
 	{

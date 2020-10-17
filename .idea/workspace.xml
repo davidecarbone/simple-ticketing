@@ -50,6 +50,11 @@
       <change beforePath="$PROJECT_DIR$/migrations/Version20201017152014.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20201017152014.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/phpunit.xml.dist" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/TicketsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TicketsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Ticket.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/TicketRepository.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Ticket/TicketRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Ticket/TicketRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/bootstrap.php" beforeDir="false" />
@@ -208,7 +213,7 @@
       <option name="presentableId" value="Default" />
       <updated>1602944844181</updated>
       <workItem from="1602944845819" duration="132000" />
-      <workItem from="1602945582734" duration="9064000" />
+      <workItem from="1602945582734" duration="9384000" />
     </task>
     <servers />
   </component>
@@ -227,10 +232,14 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state x="533" y="269" key="NewPhpClassDialog" timestamp="1602948527297">
+    <state x="578" y="298" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1602956262106">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state x="533" y="269" key="NewPhpClassDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1602948527296" />
+    <state x="578" y="298" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1602956262106" />
+    <state x="533" y="269" key="NewPhpClassDialog" timestamp="1602956238859">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="533" y="269" key="NewPhpClassDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1602956238859" />
     <state x="532" y="291" width="615" height="490" key="find.popup" timestamp="1602952348404">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>

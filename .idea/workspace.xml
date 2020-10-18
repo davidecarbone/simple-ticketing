@@ -21,9 +21,13 @@
   <component name="ChangeListManager">
     <list default="true" id="6c196f93-1b25-48f7-a5d7-7440d5b8f224" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/routes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20201017152014.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20201017152014.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/TicketsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TicketsController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DBALRepository.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/TicketRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/TicketRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Ticket/Ticket.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Ticket/Ticket.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Ticket/TicketRepository.php" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -167,6 +171,7 @@
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/Ticket" />
+      <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/migrations" />
     </key>
@@ -182,7 +187,7 @@
       <option name="presentableId" value="Default" />
       <updated>1602944844181</updated>
       <workItem from="1602944845819" duration="132000" />
-      <workItem from="1602945582734" duration="9843000" />
+      <workItem from="1602945582734" duration="13068000" />
     </task>
     <servers />
   </component>

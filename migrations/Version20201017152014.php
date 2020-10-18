@@ -18,10 +18,12 @@ final class Version20201017152014 extends AbstractMigration
     {
         $this->addSql(
         	'CREATE TABLE Ticket(
-				id INT AUTO_INCREMENT NOT NULL,
+				id VARCHAR(255) NOT NULL,
 				authorId VARCHAR(255) NOT NULL,
-				status VARCHAR(32) NOT NULL,
+				status VARCHAR(32)NOT NULL ,
 				assignedTo VARCHAR(255) DEFAULT NULL,
+				createdOn DATETIME NOT NULL,
+				updatedOn DATETIME NOT NULL,
 				PRIMARY KEY(id)
 			)
 			DEFAULT CHARACTER SET utf8mb4

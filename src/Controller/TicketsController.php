@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controller;
+namespace SimpleTicketing\Controller;
 
-use App\Repository\TicketRepository;
-use App\Ticket\Ticket;
+use SimpleTicketing\Repository\TicketRepository;
+use SimpleTicketing\Ticket\Ticket;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

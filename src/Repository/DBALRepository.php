@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace SimpleTicketing\Repository;
 
 use Doctrine\DBAL\Connection;
 

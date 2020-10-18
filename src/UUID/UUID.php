@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UUID;
+namespace SimpleTicketing\UUID;
 
 class UUID
 {

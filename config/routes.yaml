@@ -1,4 +1,4 @@
 tickets_add:
     path: /tickets
-    controller: App\Controller\TicketsController::postTicket
+    controller: SimpleTicketing\Controller\TicketsController::postTicket
     methods: POST

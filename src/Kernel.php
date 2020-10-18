@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace SimpleTicketing;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;

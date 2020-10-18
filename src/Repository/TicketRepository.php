@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace SimpleTicketing\Repository;
 
-use App\Ticket\Ticket;
+use SimpleTicketing\Ticket\Ticket;
 
 class TicketRepository extends DBALRepository
 {

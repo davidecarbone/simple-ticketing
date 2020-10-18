@@ -21,14 +21,23 @@
   <component name="ChangeListManager">
     <list default="true" id="6c196f93-1b25-48f7-a5d7-7440d5b8f224" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/console" beforeDir="false" afterPath="$PROJECT_DIR$/bin/console" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/routes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/migrations/Version20201017152014.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20201017152014.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/TicketsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TicketsController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DBALRepository.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/DBALRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/DBALRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Repository/TicketRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/TicketRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Ticket/Ticket.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Ticket/Ticket.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Ticket/TicketId.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Ticket/TicketId.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Ticket/TicketRepository.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UUID/UUID.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UUID/UUID.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UUID/UniqueIdentifier.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UUID/UniqueIdentifier.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,7 +196,7 @@
       <option name="presentableId" value="Default" />
       <updated>1602944844181</updated>
       <workItem from="1602944845819" duration="132000" />
-      <workItem from="1602945582734" duration="13068000" />
+      <workItem from="1602945582734" duration="13435000" />
     </task>
     <servers />
   </component>

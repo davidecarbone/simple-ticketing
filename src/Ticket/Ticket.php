@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Ticket;
+namespace SimpleTicketing\Ticket;
 
 class Ticket
 {

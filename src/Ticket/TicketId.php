@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Ticket;
+namespace SimpleTicketing\Ticket;
 
-use App\UUID\UniqueIdentifier;
+use SimpleTicketing\UUID\UniqueIdentifier;
 
 final class TicketId extends UniqueIdentifier
 {

@@ -1,4 +1,9 @@
-tickets_add:
+post_login:
+    path: /login
+    controller: SimpleTicketing\Controller\LoginController::login
+    methods: POST
+
+post_tickets:
     path: /tickets
     controller: SimpleTicketing\Controller\TicketsController::postTicket
     methods: POST

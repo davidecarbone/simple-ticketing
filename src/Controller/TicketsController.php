@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class TicketsController
+class TicketsController implements TokenAuthenticatedController
 {
 	/** @var TicketRepository */
 	private $ticketRepository;
@@ -29,13 +29,13 @@ class TicketsController
 	 */
 	public function postTicket(Request $request): JsonResponse
 	{
-		$data = json_decode($request->getContent(), true);
+		$requestContent = json_decode($request->getContent(), true);
 
-		if (empty($data['authorId'])) {
+		if (empty($requestContent['authorId'])) {
 			throw new BadRequestException('Expecting mandatory parameters!');
 		}
 
-		$ticket = Ticket::createWithAuthorId($data['authorId']);
+		$ticket = Ticket::createWithAuthorId($requestContent['authorId']);
 
 		$this->ticketRepository->save($ticket);
 

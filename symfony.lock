@@ -69,6 +69,9 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
+    "firebase/php-jwt": {
+        "version": "v5.2.0"
+    },
     "ocramius/proxy-manager": {
         "version": "2.2.3"
     },

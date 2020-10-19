@@ -1,0 +1,11 @@
+openapi: "3.0.0"
+info:
+  title: Simple Ticketing
+  version: "0.1"
+$ref: './components.yaml'
+paths:
+  /login:
+    $ref: './paths/post_login.yaml'
+
+  /tickets:
+    $ref: './paths/post_tickets.yaml'

@@ -1,0 +1,35 @@
+post:
+  summary: Login with username and password
+  description: Authenticate with username and password and get a JWT token
+  operationId: login
+  tags:
+    - Login
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            username:
+              type: string
+            password:
+              type: string
+          required:
+            - username
+            - password
+        example:
+          {
+            'username': 'user',
+            'password': 'user',
+          }
+  responses:
+    '200':
+      description: Login successful
+      content:
+        application/json:
+          schema:
+            $ref: '../components.yaml#components/schemas/JWT'
+    '400':
+      $ref: '../components.yaml#components/responses/BadRequest'
+    '401':
+      $ref: '../components.yaml#components/responses/Unauthorized'

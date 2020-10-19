@@ -20,8 +20,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6c196f93-1b25-48f7-a5d7-7440d5b8f224" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,21 +156,24 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/tests/end2end" />
     <property name="options.lastSelected" value="vcs.Subversion" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/tests/unit/Controller" />
+      <recent name="$PROJECT_DIR$/tests/unit" />
       <recent name="$PROJECT_DIR$/src/Repository" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/migrations" />
+      <recent name="$PROJECT_DIR$/tests/end2end" />
+      <recent name="$PROJECT_DIR$/tests/integration" />
+      <recent name="$PROJECT_DIR$/tests" />
       <recent name="$PROJECT_DIR$/vendor" />
-      <recent name="$PROJECT_DIR$/src" />
-      <recent name="$PROJECT_DIR$/src/Controller" />
+      <recent name="$PROJECT_DIR$" />
     </key>
   </component>
   <component name="SvnConfiguration">
@@ -181,7 +187,7 @@
       <option name="presentableId" value="Default" />
       <updated>1602944844181</updated>
       <workItem from="1602944845819" duration="132000" />
-      <workItem from="1602945582734" duration="23150000" />
+      <workItem from="1602945582734" duration="29527000" />
     </task>
     <servers />
   </component>
@@ -208,9 +214,17 @@
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="533" y="269" key="NewPhpClassDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1603028446281" />
-    <state x="532" y="291" width="615" height="490" key="find.popup" timestamp="1602952348404">
+    <state x="341" y="175" key="SettingsEditor" timestamp="1603112476546">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state x="532" y="291" width="615" height="490" key="find.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1602952348404" />
+    <state x="341" y="175" key="SettingsEditor/0.23.1680.1027@0.23.1680.1027" timestamp="1603112476546" />
+    <state x="532" y="291" width="615" height="490" key="find.popup" timestamp="1603113814811">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="532" y="291" width="615" height="490" key="find.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1603113814811" />
+    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup" timestamp="1603115032453">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1603115032453" />
   </component>
 </project>

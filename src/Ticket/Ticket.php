@@ -13,7 +13,7 @@ class Ticket
 	/** @var string */
 	private $assignedTo;
 
-	/** @var string */
+	/** @var TicketStatus */
     private $status;
 
 	/** @var \DateTime */
@@ -37,7 +37,7 @@ class Ticket
     	$ticket->id = new TicketId();
     	$ticket->authorId = $authorId;
     	$ticket->assignedTo = null;
-    	$ticket->status = 'NEW';
+    	$ticket->status = new TicketStatus(TicketStatus::NEW);
     	$ticket->createdOn = (new \DateTime())->format('Y-m-d H:i:s');
     	$ticket->updatedOn = (new \DateTime())->format('Y-m-d H:i:s');
 

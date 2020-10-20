@@ -4,8 +4,8 @@ namespace SimpleTicketing\User;
 
 final class UserType
 {
-	private const TYPE_ADMIN = 'ADMIN';
-	private const TYPE_CUSTOMER = 'CUSTOMER';
+	private const ADMIN = 'ADMIN';
+	private const CUSTOMER = 'CUSTOMER';
 
 	/** @var string */
 	private $userType;
@@ -17,7 +17,7 @@ final class UserType
 	 */
 	public function __construct(string $userType)
 	{
-		if ($userType != self::TYPE_ADMIN && $userType != self::TYPE_CUSTOMER) {
+		if ($userType != self::ADMIN && $userType != self::CUSTOMER) {
 			throw new UserTypeException("$userType is not a valid user type.");
 		}
 

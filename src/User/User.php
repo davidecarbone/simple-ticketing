@@ -56,4 +56,28 @@ class User
 	        'fullName' => $this->fullName
         ];
     }
+
+	/**
+	 * @return string
+	 */
+	public function id(): string
+	{
+		return $this->id;
+	}
+
+	/**
+	 * @return string
+	 */
+    public function fullName(): string
+    {
+    	return $this->fullName;
+    }
+
+	/**
+	 * @return bool
+	 */
+    public function isAdmin(): bool
+    {
+    	return $this->type == UserType::ADMIN;
+    }
 }

@@ -4,8 +4,8 @@ namespace SimpleTicketing\User;
 
 final class UserType
 {
-	private const ADMIN = 'ADMIN';
-	private const CUSTOMER = 'CUSTOMER';
+	public const ADMIN = 'ADMIN';
+	public const CUSTOMER = 'CUSTOMER';
 
 	/** @var string */
 	private $userType;

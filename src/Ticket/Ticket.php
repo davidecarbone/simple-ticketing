@@ -2,19 +2,24 @@
 
 namespace SimpleTicketing\Ticket;
 
+use SimpleTicketing\User\User;
+
 class Ticket
 {
 	/** @var TicketId */
     private $id;
 
-    /** @var string */
-    private $authorId;
+    /** @var User */
+    private $author;
 
-	/** @var string */
+	/** @var User */
 	private $assignedTo;
 
 	/** @var TicketStatus */
     private $status;
+
+    /** @var TicketMessage[] */
+    private $messages;
 
 	/** @var \DateTime */
     private $createdOn;
@@ -27,17 +32,19 @@ class Ticket
     }
 
 	/**
-	 * @param string $authorId
+	 * @param User          $author
+	 * @param TicketMessage $message
 	 *
 	 * @return Ticket
 	 */
-    public static function createWithAuthorId(string $authorId): Ticket
+    public static function createWithAuthorAndMessage(User $author, TicketMessage $message): Ticket
     {
     	$ticket = new self;
     	$ticket->id = new TicketId();
-    	$ticket->authorId = $authorId;
+    	$ticket->author = $author;
     	$ticket->assignedTo = null;
     	$ticket->status = new TicketStatus(TicketStatus::NEW);
+    	$ticket->messages[] = $message;
     	$ticket->createdOn = (new \DateTime())->format('Y-m-d H:i:s');
     	$ticket->updatedOn = (new \DateTime())->format('Y-m-d H:i:s');
 
@@ -51,11 +58,39 @@ class Ticket
     {
     	return [
     		'id' => $this->id,
-		    'authorId' => $this->authorId,
-		    'assignedTo' => $this->assignedTo,
+		    'authorId' => $this->author->id(),
+		    'assignedTo' => $this->assignedTo ? $this->assignedTo->fullName() : null,
 		    'status' => $this->status,
+		    'messages' => $this->messageList(),
 		    'createdOn' => $this->createdOn,
 		    'updatedOn' => $this->updatedOn
 	    ];
     }
+
+	/**
+	 * @return array
+	 */
+    public function messageList(): array
+    {
+    	$messageList = [];
+
+	    foreach ($this->messages as $message) {
+		    $messageList[] = (string) $message;
+    	}
+
+	    return $messageList;
+    }
+
+	/**
+	 * @param User $user
+	 */
+	public function assignToUser(User $user)
+	{
+		if (!$user->isAdmin()) {
+			throw new ForbiddenTicketAssignationException("Cannot assign ticket to non-admin users.");
+		}
+
+		$this->assignedTo = $user;
+		$this->status = TicketStatus::ASSIGNED;
+	}
 }

@@ -3,22 +3,93 @@
 namespace SimpleTicketing\Tests\Unit\Ticket;
 
 use PHPUnit\Framework\TestCase;
+use SimpleTicketing\Ticket\ForbiddenTicketAssignationException;
 use SimpleTicketing\Ticket\Ticket;
 use SimpleTicketing\Ticket\TicketId;
+use SimpleTicketing\Ticket\TicketMessage;
+use SimpleTicketing\Ticket\TicketStatus;
+use SimpleTicketing\User\User;
+use SimpleTicketing\User\UserId;
 
 class TicketTest extends TestCase
 {
     /** @test */
-    public function can_be_built_with_author_and_exported_to_array()
+    public function can_be_built_with_author_and_message_and_exported_to_array()
     {
-        $ticket = Ticket::createWithAuthorId('test123');
+    	$authorId = new UserId();
+	    $author = User::fromArray([
+		    'id' => $authorId,
+		    'username' => 'test',
+		    'password' => 'test',
+		    'type' => 'CUSTOMER',
+		    'fullName' => 'customer test'
+	    ]);
+
+	    $message = new TicketMessage('test message');
+        $ticket = Ticket::createWithAuthorAndMessage($author, $message);
         $ticketData = $ticket->toArray();
 
         $this->assertInstanceOf(TicketId::class, $ticketData['id']);
-        $this->assertEquals('test123', $ticketData['authorId']);
+        $this->assertEquals($authorId, $ticketData['authorId']);
         $this->assertNull($ticketData['assignedTo']);
         $this->assertEquals('Nuovo', $ticketData['status']);
+        $this->assertIsArray($ticketData['messages']);
+        $this->assertEquals('test message', $ticketData['messages'][0]);
         $this->assertIsString($ticketData['createdOn']);
         $this->assertIsString($ticketData['updatedOn']);
     }
+
+    public function cannot_be_assigned_to_non_admin_users()
+    {
+    	$this->expectException(ForbiddenTicketAssignationException::class);
+
+	    $author = User::fromArray([
+		    'id' => new UserId(),
+		    'username' => 'test',
+		    'password' => 'test',
+		    'type' => 'CUSTOMER',
+		    'fullName' => 'author test'
+	    ]);
+
+	    $user = User::fromArray([
+		    'id' => new UserId(),
+		    'username' => 'test',
+		    'password' => 'test',
+		    'type' => 'CUSTOMER',
+		    'fullName' => 'customer test'
+	    ]);
+
+	    $message = new TicketMessage('test');
+	    $ticket = Ticket::createWithAuthorAndMessage($author, $message);
+
+	    $ticket->assignToUser($user);
+    }
+
+	/** @test */
+	public function status_changes_automatically_when_assigned()
+	{
+		$authorId = new UserId();
+		$author = User::fromArray([
+			'id' => $authorId,
+			'username' => 'test',
+			'password' => 'test',
+			'type' => 'CUSTOMER',
+			'fullName' => 'customer test'
+		]);
+
+		$admin = User::fromArray([
+			'id' => new UserId(),
+			'username' => 'test',
+			'password' => 'test',
+			'type' => 'ADMIN',
+			'fullName' => 'admin test'
+		]);
+
+		$message = new TicketMessage('test');
+		$ticket = Ticket::createWithAuthorAndMessage($author, $message);
+		$ticket->assignToUser($admin);
+		$ticketData = $ticket->toArray();
+
+		$this->assertEquals(TicketStatus::ASSIGNED, $ticketData['status']);
+	}
 }

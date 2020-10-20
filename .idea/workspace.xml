@@ -20,12 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6c196f93-1b25-48f7-a5d7-7440d5b8f224" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Ticket/TicketStatus.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Ticket/TicketStatusException.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/unit/Ticket/TicketTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Ticket/ForbiddenTicketAssignationException.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Ticket/Ticket.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Ticket/Ticket.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/User/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/User/User.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/User/UserType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/User/UserType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/unit/Ticket/TicketTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/unit/Ticket/TicketTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +188,7 @@
       <option name="presentableId" value="Default" />
       <updated>1602944844181</updated>
       <workItem from="1602944845819" duration="132000" />
-      <workItem from="1602945582734" duration="32141000" />
+      <workItem from="1602945582734" duration="34497000" />
     </task>
     <servers />
   </component>
@@ -207,14 +207,14 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state x="578" y="298" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1603030877762">
+    <state x="578" y="298" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1603197489210">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state x="578" y="298" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1603030877762" />
-    <state x="533" y="269" key="NewPhpClassDialog" timestamp="1603196028875">
+    <state x="578" y="298" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1603197489210" />
+    <state x="533" y="269" key="NewPhpClassDialog" timestamp="1603197875131">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state x="533" y="269" key="NewPhpClassDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1603196028875" />
+    <state x="533" y="269" key="NewPhpClassDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1603197875131" />
     <state x="642" y="467" key="NewPhpFileDialog" timestamp="1603196241019">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
@@ -227,9 +227,9 @@
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="532" y="291" width="615" height="490" key="find.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1603113814811" />
-    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup" timestamp="1603115032453">
+    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup" timestamp="1603198030643">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1603115032453" />
+    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1603198030643" />
   </component>
 </project>

@@ -21,11 +21,15 @@ post:
           properties:
             authorId:
               type: string
+            message:
+              type: string
           required:
             - authorId
+            - message
         example:
           {
-            'authorId': 17899aa6-07d8-4f18-bb1e-e574bc08164e
+            'authorId': d7a8cd93-7df7-48be-a999-244e8e2f62d8,
+            'message': test message
           }
   responses:
     '201':

@@ -6,7 +6,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SimpleTicketing\Authentication\JWT;
 use SimpleTicketing\Controller\LoginController;
-use SimpleTicketing\Password\Password;
 use SimpleTicketing\Repository\UserRepository;
 use SimpleTicketing\User\User;
 use Symfony\Component\HttpFoundation\Request;

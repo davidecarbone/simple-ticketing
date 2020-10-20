@@ -22,6 +22,7 @@ final class Version20201017152014 extends AbstractMigration
 				authorId VARCHAR(255) NOT NULL,
 				status VARCHAR(32)NOT NULL ,
 				assignedTo VARCHAR(255) DEFAULT NULL,
+				message TEXT NOT NULL,
 				createdOn DATETIME NOT NULL,
 				updatedOn DATETIME NOT NULL,
 				PRIMARY KEY(id)

@@ -52,7 +52,7 @@ class User
             'id' => (string)$this->id,
             'username' => $this->username,
             'password' => $this->password ? $this->password->getHash() : null,
-	        'type' => $this->type,
+	        'type' => (string)$this->type,
 	        'fullName' => $this->fullName
         ];
     }

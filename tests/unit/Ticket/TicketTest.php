@@ -26,8 +26,8 @@ class TicketTest extends TestCase
         $this->assertEquals($authorId, $ticketData['authorId']);
         $this->assertNull($ticketData['assignedTo']);
         $this->assertEquals('Nuovo', $ticketData['status']);
-        $this->assertIsArray($ticketData['messages']);
-        $this->assertEquals('test message', $ticketData['messages'][0]);
+        //$this->assertIsArray($ticketData['messages']);
+        $this->assertEquals('test message', $ticketData['message']);
         $this->assertIsString($ticketData['createdOn']);
         $this->assertIsString($ticketData['updatedOn']);
     }

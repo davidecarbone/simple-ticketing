@@ -64,7 +64,7 @@ class Ticket
 		$ticket->authorId = new UserId($ticketData['authorId']);
 		$ticket->assignedTo = $ticketData['assignedTo'];
 		$ticket->status = new TicketStatus($ticketData['status']);
-		$ticket->messages[] = '';
+		$ticket->messages[] = $ticketData['message'];
 		$ticket->createdOn = (new \DateTime($ticketData['createdOn']))->format('Y-m-d H:i:s');
 		$ticket->updatedOn = (new \DateTime($ticketData['updatedOn']))->format('Y-m-d H:i:s');
 
@@ -81,7 +81,8 @@ class Ticket
 		    'authorId' => $this->authorId,
 		    'assignedTo' => $this->assignedTo,
 		    'status' => $this->status,
-		    'messages' => $this->messageList(),
+		    'message' => $this->messageList()[0],
+		    //'messages' => $this->messageList(),
 		    'createdOn' => $this->createdOn,
 		    'updatedOn' => $this->updatedOn
 	    ];

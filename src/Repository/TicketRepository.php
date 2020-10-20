@@ -17,7 +17,7 @@ class TicketRepository extends DBALRepository
 	public function findById(TicketId $ticketId): ?Ticket
 	{
 		$stmt = $this->connection->createQueryBuilder()
-			->select('id', 'authorId', 'status', 'assignedTo', 'createdOn', 'updatedOn')
+			->select('id', 'authorId', 'status', 'assignedTo', 'message', 'createdOn', 'updatedOn')
 			->from(self::TABLE_NAME)
 			->where('id = ?')
 			->setParameter(0, (string)$ticketId)
@@ -30,8 +30,9 @@ class TicketRepository extends DBALRepository
 		return Ticket::fromArray([
 			'id' => $result['id'],
 			'authorId' => $result['authorId'],
-			'assignedTo' => $result['assignedTo'],
 			'status' => $result['status'],
+			'assignedTo' => $result['assignedTo'],
+			'message' => $result['message'],
 			'createdOn' => $result['createdOn'],
 			'updatedOn' => $result['updatedOn']
 		]);
@@ -53,6 +54,7 @@ class TicketRepository extends DBALRepository
 				'authorId' => '?',
 				'status' => '?',
 				'assignedTo' => '?',
+				'message' => '?',
 				'createdOn' => '?',
 				'updatedOn' => '?',
 			])
@@ -60,8 +62,9 @@ class TicketRepository extends DBALRepository
 			->setParameter(1, $ticketData['authorId'])
 			->setParameter(2, $ticketData['status'])
 			->setParameter(3, $ticketData['assignedTo'])
-			->setParameter(4, $ticketData['createdOn'])
-			->setParameter(5, $ticketData['updatedOn'])
+			->setParameter(4, $ticketData['message'])
+			->setParameter(5, $ticketData['createdOn'])
+			->setParameter(6, $ticketData['updatedOn'])
 			->execute();
 
 		return $ticket->id();

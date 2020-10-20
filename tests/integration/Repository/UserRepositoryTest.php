@@ -1,13 +1,13 @@
 <?php
 
-namespace SimpleTicketing\Tests\Integration\User;
+namespace SimpleTicketing\Tests\Integration\Repository;
 
 use SimpleTicketing\Password\Password;
 use SimpleTicketing\Tests\ContainerAwareTest;
 use SimpleTicketing\Repository\UserRepository;
 use SimpleTicketing\User\User;
 
-class RepositoryTest extends ContainerAwareTest
+class UserRepositoryTest extends ContainerAwareTest
 {
     /** @var UserRepository */
     private $repository;

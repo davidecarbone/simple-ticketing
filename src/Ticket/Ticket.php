@@ -3,16 +3,17 @@
 namespace SimpleTicketing\Ticket;
 
 use SimpleTicketing\User\User;
+use SimpleTicketing\User\UserId;
 
 class Ticket
 {
 	/** @var TicketId */
     private $id;
 
-    /** @var User */
-    private $author;
+    /** @var UserId */
+    private $authorId;
 
-	/** @var User */
+	/** @var UserId */
 	private $assignedTo;
 
 	/** @var TicketStatus */
@@ -32,16 +33,16 @@ class Ticket
     }
 
 	/**
-	 * @param User          $author
+	 * @param UserId        $authorId
 	 * @param TicketMessage $message
 	 *
 	 * @return Ticket
 	 */
-    public static function createWithAuthorAndMessage(User $author, TicketMessage $message): Ticket
+    public static function createWithAuthorIdAndMessage(UserId $authorId, TicketMessage $message): Ticket
     {
     	$ticket = new self;
     	$ticket->id = new TicketId();
-    	$ticket->author = $author;
+    	$ticket->authorId = $authorId;
     	$ticket->assignedTo = null;
     	$ticket->status = new TicketStatus(TicketStatus::NEW);
     	$ticket->messages[] = $message;
@@ -52,19 +53,46 @@ class Ticket
     }
 
 	/**
+	 * @param array $ticketData
+	 *
+	 * @return Ticket
+	 */
+	public static function fromArray(array $ticketData): Ticket
+	{
+		$ticket = new self;
+		$ticket->id = new TicketId($ticketData['id']);
+		$ticket->authorId = new UserId($ticketData['authorId']);
+		$ticket->assignedTo = $ticketData['assignedTo'];
+		$ticket->status = new TicketStatus($ticketData['status']);
+		$ticket->messages[] = '';
+		$ticket->createdOn = (new \DateTime($ticketData['createdOn']))->format('Y-m-d H:i:s');
+		$ticket->updatedOn = (new \DateTime($ticketData['updatedOn']))->format('Y-m-d H:i:s');
+
+		return $ticket;
+	}
+
+	/**
 	 * @return array
 	 */
     public function toArray(): array
     {
     	return [
     		'id' => $this->id,
-		    'authorId' => $this->author->id(),
-		    'assignedTo' => $this->assignedTo ? $this->assignedTo->fullName() : null,
+		    'authorId' => $this->authorId,
+		    'assignedTo' => $this->assignedTo,
 		    'status' => $this->status,
 		    'messages' => $this->messageList(),
 		    'createdOn' => $this->createdOn,
 		    'updatedOn' => $this->updatedOn
 	    ];
+    }
+
+	/**
+	 * @return TicketId
+	 */
+    public function id()
+    {
+    	return $this->id;
     }
 
 	/**
@@ -90,7 +118,7 @@ class Ticket
 			throw new ForbiddenTicketAssignationException("Cannot assign ticket to non-admin users.");
 		}
 
-		$this->assignedTo = $user;
+		$this->assignedTo = $user->id();
 		$this->status = TicketStatus::ASSIGNED;
 	}
 }

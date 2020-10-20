@@ -17,16 +17,9 @@ class TicketTest extends TestCase
     public function can_be_built_with_author_and_message_and_exported_to_array()
     {
     	$authorId = new UserId();
-	    $author = User::fromArray([
-		    'id' => $authorId,
-		    'username' => 'test',
-		    'password' => 'test',
-		    'type' => 'CUSTOMER',
-		    'fullName' => 'customer test'
-	    ]);
 
 	    $message = new TicketMessage('test message');
-        $ticket = Ticket::createWithAuthorAndMessage($author, $message);
+        $ticket = Ticket::createWithAuthorIdAndMessage($authorId, $message);
         $ticketData = $ticket->toArray();
 
         $this->assertInstanceOf(TicketId::class, $ticketData['id']);
@@ -43,14 +36,6 @@ class TicketTest extends TestCase
     {
     	$this->expectException(ForbiddenTicketAssignationException::class);
 
-	    $author = User::fromArray([
-		    'id' => new UserId(),
-		    'username' => 'test',
-		    'password' => 'test',
-		    'type' => 'CUSTOMER',
-		    'fullName' => 'author test'
-	    ]);
-
 	    $user = User::fromArray([
 		    'id' => new UserId(),
 		    'username' => 'test',
@@ -60,7 +45,7 @@ class TicketTest extends TestCase
 	    ]);
 
 	    $message = new TicketMessage('test');
-	    $ticket = Ticket::createWithAuthorAndMessage($author, $message);
+	    $ticket = Ticket::createWithAuthorIdAndMessage(new UserId(), $message);
 
 	    $ticket->assignToUser($user);
     }
@@ -68,15 +53,6 @@ class TicketTest extends TestCase
 	/** @test */
 	public function status_changes_automatically_when_assigned()
 	{
-		$authorId = new UserId();
-		$author = User::fromArray([
-			'id' => $authorId,
-			'username' => 'test',
-			'password' => 'test',
-			'type' => 'CUSTOMER',
-			'fullName' => 'customer test'
-		]);
-
 		$admin = User::fromArray([
 			'id' => new UserId(),
 			'username' => 'test',
@@ -86,7 +62,7 @@ class TicketTest extends TestCase
 		]);
 
 		$message = new TicketMessage('test');
-		$ticket = Ticket::createWithAuthorAndMessage($author, $message);
+		$ticket = Ticket::createWithAuthorIdAndMessage(new UserId(), $message);
 		$ticket->assignToUser($admin);
 		$ticketData = $ticket->toArray();
 

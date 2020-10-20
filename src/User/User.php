@@ -66,14 +66,6 @@ class User
 	}
 
 	/**
-	 * @return string
-	 */
-    public function fullName(): string
-    {
-    	return $this->fullName;
-    }
-
-	/**
 	 * @return bool
 	 */
     public function isAdmin(): bool

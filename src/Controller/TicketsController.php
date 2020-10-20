@@ -37,7 +37,7 @@ class TicketsController implements TokenAuthenticatedController
 
 		$ticket = Ticket::createWithAuthorId($requestContent['authorId']);
 
-		$this->ticketRepository->save($ticket);
+		$this->ticketRepository->insert($ticket);
 
 		return new JsonResponse(['message' => 'Ticket created!'], Response::HTTP_CREATED);
 	}

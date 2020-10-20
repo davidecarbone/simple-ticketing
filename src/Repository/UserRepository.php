@@ -38,6 +38,6 @@ class UserRepository extends DBALRepository
 			->setParameter(0, $username)
 			->execute();
 
-		return $stmt->fetch();
+		return $stmt->fetchAssociative();
 	}
 }

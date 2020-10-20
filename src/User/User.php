@@ -15,6 +15,9 @@ class User
     /** @var Password */
     private $password;
 
+    /** @var UserType */
+    private $type;
+
 	/** @var string */
     private $fullName;
 
@@ -34,6 +37,7 @@ class User
         $user->id = new UserId($data['id']);
         $user->username = $data['username'] ?? null;
         $user->password = $data['password'] ? new Password($data['password']) : null;
+        $user->type = new UserType($data['type']);
 	    $user->fullName = $data['fullName'];
 
         return $user;
@@ -48,6 +52,7 @@ class User
             'id' => (string)$this->id,
             'username' => $this->username,
             'password' => $this->password ? $this->password->getHash() : null,
+	        'type' => $this->type,
 	        'fullName' => $this->fullName
         ];
     }

@@ -9,6 +9,12 @@ class UserRepository extends DBALRepository
 {
     private const TABLE_NAME = 'User';
 
+	/**
+	 * @param string   $username
+	 * @param Password $password
+	 *
+	 * @return User|null
+	 */
 	public function findByUsernameAndPassword(string $username, Password $password): ?User
 	{
 		$userData = $this->findUserDataByUsername($username);
@@ -26,7 +32,7 @@ class UserRepository extends DBALRepository
 	private function findUserDataByUsername(string $username): array
 	{
 		$stmt = $this->connection->createQueryBuilder()
-			->select('id', 'fullName', 'password')
+			->select('id', 'fullName', 'type', 'password')
 			->from(self::TABLE_NAME)
 			->where('username = ?')
 			->setParameter(0, $username)

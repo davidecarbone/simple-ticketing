@@ -38,11 +38,11 @@ class LoginControllerTest extends TestCase
         $this->userRepositoryMock
             ->expects($this->once())
             ->method('findByUsernameAndPassword')
-	        //->with('test', new Password('asd'))
             ->willReturn(User::fromArray([
                 'id' => '4d8f38dc-05d4-42a6-93fe-69a72fc533b1',
                 'username' => 'test',
                 'password' => '$2y$12$S3RahWt0Uh7DsjOXaiOhceqwy2Ryi.rc/ptYpUCKgK4Fsm1hX9jMS',
+	            'type' => 'CUSTOMER',
 	            'fullName' => 'Test test'
             ]));
 

@@ -17,9 +17,10 @@ class TicketRepository extends DBALRepository
 	public function findById(TicketId $ticketId): ?Ticket
 	{
 		$stmt = $this->connection->createQueryBuilder()
-			->select('id', 'authorId', 'status', 'assignedTo', 'message', 'createdOn', 'updatedOn')
+			->select('Ticket.id', 'authorId', 'status', 'assignedTo', 'message', 'createdOn', 'updatedOn')
 			->from(self::TABLE_NAME)
-			->where('id = ?')
+			->innerJoin(self::TABLE_NAME, 'TicketMessage', 'tm', 'tm.ticketId = Ticket.id')
+			->where('Ticket.id = ?')
 			->setParameter(0, (string)$ticketId)
 			->execute();
 
@@ -42,43 +43,78 @@ class TicketRepository extends DBALRepository
 	 * @param Ticket $ticket
 	 *
 	 * @return TicketId
+	 * @throws \Exception
 	 */
 	public function insert(Ticket $ticket): TicketId
 	{
 		$ticketData = $ticket->toArray();
 
-		$this->connection->createQueryBuilder()
-			->insert(self::TABLE_NAME)
-			->values([
-				'id' => '?',
-				'authorId' => '?',
-				'status' => '?',
-				'assignedTo' => '?',
-				'message' => '?',
-				'createdOn' => '?',
-				'updatedOn' => '?',
-			])
-			->setParameter(0, $ticketData['id'])
-			->setParameter(1, $ticketData['authorId'])
-			->setParameter(2, $ticketData['status'])
-			->setParameter(3, $ticketData['assignedTo'])
-			->setParameter(4, $ticketData['message'])
-			->setParameter(5, $ticketData['createdOn'])
-			->setParameter(6, $ticketData['updatedOn'])
-			->execute();
+		$this->connection->beginTransaction();
+
+		try {
+			$this->connection->createQueryBuilder()
+				->insert(self::TABLE_NAME)
+				->values([
+					'id' => '?',
+					'status' => '?',
+					'assignedTo' => '?',
+					'createdOn' => '?',
+					'updatedOn' => '?',
+				])
+				->setParameter(0, $ticketData['id'])
+				->setParameter(1, $ticketData['status'])
+				->setParameter(2, $ticketData['assignedTo'])
+				->setParameter(3, $ticketData['createdOn'])
+				->setParameter(4, $ticketData['updatedOn'])
+				->execute();
+
+			$this->connection->createQueryBuilder()
+				->insert('TicketMessage')
+				->values([
+					'ticketId' => '?',
+					'authorId' => '?',
+					'message' => '?'
+				])
+				->setParameter(0, $ticketData['id'])
+				->setParameter(1, $ticketData['authorId'])
+				->setParameter(2, $ticketData['messages'][0])
+				->execute();
+
+			$this->connection->commit();
+		} catch (\Exception $e) {
+			$this->connection->rollBack();
+			throw $e;
+		}
 
 		return $ticket->id();
 	}
 
 	/**
 	 * @param TicketId $ticketId
+	 *
+	 * @throws \Exception
 	 */
 	public function deleteById(TicketId $ticketId)
 	{
-		$this->connection->createQueryBuilder()
-			->delete(self::TABLE_NAME)
-			->where('id = ?')
-			->setParameter(0, (string)$ticketId)
-			->execute();
+		$this->connection->beginTransaction();
+
+		try {
+			$this->connection->createQueryBuilder()
+				->delete(self::TABLE_NAME)
+				->where('id = ?')
+				->setParameter(0, (string)$ticketId)
+				->execute();
+
+			$this->connection->createQueryBuilder()
+				->delete('TicketMessage')
+				->where('ticketId = ?')
+				->setParameter(0, (string)$ticketId)
+				->execute();
+
+			$this->connection->commit();
+		} catch (\Exception $e) {
+			$this->connection->rollBack();
+			throw $e;
+		}
 	}
 }

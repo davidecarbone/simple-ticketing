@@ -7,7 +7,7 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20201017152014 extends AbstractMigration
+final class Version20201021162239 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -17,12 +17,11 @@ final class Version20201017152014 extends AbstractMigration
     public function up(Schema $schema) : void
     {
         $this->addSql(
-        	'CREATE TABLE Ticket(
-				id VARCHAR(255) NOT NULL,
-				status VARCHAR(32)NOT NULL ,
-				assignedTo VARCHAR(255) DEFAULT NULL,
-				createdOn DATETIME NOT NULL,
-				updatedOn DATETIME NOT NULL,
+        	'CREATE TABLE TicketMessage(
+				id INT(11) NOT NULL AUTO_INCREMENT,
+				ticketId VARCHAR(255) NOT NULL,
+				authorId VARCHAR(255) NOT NULL,
+				message TEXT NOT NULL,
 				PRIMARY KEY(id)
 			)
 			DEFAULT CHARACTER SET utf8mb4
@@ -33,6 +32,6 @@ final class Version20201017152014 extends AbstractMigration
 
     public function down(Schema $schema) : void
     {
-        $this->addSql('DROP TABLE Ticket');
+        $this->addSql('DROP TABLE TicketMessage');
     }
 }

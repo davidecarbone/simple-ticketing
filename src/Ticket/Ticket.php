@@ -81,8 +81,7 @@ class Ticket
 		    'authorId' => $this->authorId,
 		    'assignedTo' => $this->assignedTo,
 		    'status' => $this->status,
-		    'message' => $this->messageList()[0],
-		    //'messages' => $this->messageList(),
+		    'messages' => $this->messageList(),
 		    'createdOn' => $this->createdOn,
 		    'updatedOn' => $this->updatedOn
 	    ];

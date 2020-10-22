@@ -5,7 +5,7 @@ namespace SimpleTicketing\Ticket;
 use SimpleTicketing\User\User;
 use SimpleTicketing\User\UserId;
 
-class Ticket
+class Ticket implements \JsonSerializable
 {
 	/** @var TicketId */
     private $id;
@@ -64,7 +64,7 @@ class Ticket
 		$ticket->authorId = new UserId($ticketData['authorId']);
 		$ticket->assignedTo = $ticketData['assignedTo'];
 		$ticket->status = new TicketStatus($ticketData['status']);
-		$ticket->messages[] = $ticketData['message'];
+		$ticket->messages = $ticketData['messages'];
 		$ticket->createdOn = (new \DateTime($ticketData['createdOn']))->format('Y-m-d H:i:s');
 		$ticket->updatedOn = (new \DateTime($ticketData['updatedOn']))->format('Y-m-d H:i:s');
 
@@ -77,10 +77,10 @@ class Ticket
     public function toArray(): array
     {
     	return [
-    		'id' => $this->id,
-		    'authorId' => $this->authorId,
-		    'assignedTo' => $this->assignedTo,
-		    'status' => $this->status,
+    		'id' => (string)$this->id,
+		    'authorId' => (string)$this->authorId,
+		    'assignedTo' => $this->assignedTo ? (string)$this->assignedTo : null,
+		    'status' => (string)$this->status,
 		    'messages' => $this->messageList(),
 		    'createdOn' => $this->createdOn,
 		    'updatedOn' => $this->updatedOn
@@ -120,5 +120,10 @@ class Ticket
 
 		$this->assignedTo = $user->id();
 		$this->status = TicketStatus::ASSIGNED;
+	}
+
+	public function jsonSerialize()
+	{
+		return $this->toArray();
 	}
 }

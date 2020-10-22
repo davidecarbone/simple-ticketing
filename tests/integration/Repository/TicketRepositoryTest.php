@@ -32,7 +32,7 @@ class TicketRepositoryTest extends ContainerAwareTest
     }
 
 	/** @test */
-    public function can_insert_tickets()
+    public function can_insert_tickets_and_find_them_by_id()
     {
     	$authorId = new UserId();
 	    $message = new TicketMessage('test message');
@@ -43,7 +43,7 @@ class TicketRepositoryTest extends ContainerAwareTest
         $insertedTicket = $this->repository->findById($this->ticketId);
         $ticketData = $insertedTicket->toArray();
 
-	    $this->assertInstanceOf(TicketId::class, $ticketData['id']);
+	    $this->assertIsString($ticketData['id']);
 	    $this->assertEquals($authorId, $ticketData['authorId']);
 	    $this->assertNull($ticketData['assignedTo']);
 	    $this->assertEquals('Nuovo', $ticketData['status']);
@@ -52,4 +52,26 @@ class TicketRepositoryTest extends ContainerAwareTest
 	    $this->assertIsString($ticketData['createdOn']);
 	    $this->assertIsString($ticketData['updatedOn']);
     }
+
+	/** @test */
+	public function can_find_tickets_by_user_id()
+	{
+		$authorId = new UserId();
+		$message = new TicketMessage('test message 2');
+		$ticket = Ticket::createWithAuthorIdAndMessage($authorId, $message);
+
+		$this->ticketId = $this->repository->insert($ticket);
+		$tickets = $this->repository->findByUserId($authorId);
+
+		$ticketData = $tickets[0]->toArray();
+
+		$this->assertIsString($ticketData['id']);
+		$this->assertEquals($authorId, $ticketData['authorId']);
+		$this->assertNull($ticketData['assignedTo']);
+		$this->assertEquals('Nuovo', $ticketData['status']);
+		$this->assertIsArray($ticketData['messages']);
+		$this->assertEquals('test message 2', $ticketData['messages'][0]);
+		$this->assertIsString($ticketData['createdOn']);
+		$this->assertIsString($ticketData['updatedOn']);
+	}
 }

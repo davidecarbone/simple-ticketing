@@ -8,4 +8,4 @@ paths:
     $ref: './paths/post_login.yaml'
 
   /tickets:
-    $ref: './paths/post_tickets.yaml'
+    $ref: './paths/tickets.yaml'

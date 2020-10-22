@@ -58,9 +58,9 @@ class User
     }
 
 	/**
-	 * @return string
+	 * @return UserId
 	 */
-	public function id(): string
+	public function id(): UserId
 	{
 		return $this->id;
 	}

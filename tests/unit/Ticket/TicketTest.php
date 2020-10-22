@@ -22,7 +22,7 @@ class TicketTest extends TestCase
         $ticket = Ticket::createWithAuthorIdAndMessage($authorId, $message);
         $ticketData = $ticket->toArray();
 
-        $this->assertInstanceOf(TicketId::class, $ticketData['id']);
+        $this->assertIsString($ticketData['id']);
         $this->assertEquals($authorId, $ticketData['authorId']);
         $this->assertNull($ticketData['assignedTo']);
         $this->assertEquals('Nuovo', $ticketData['status']);

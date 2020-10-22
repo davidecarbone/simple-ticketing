@@ -4,6 +4,7 @@ namespace SimpleTicketing\Repository;
 
 use SimpleTicketing\Ticket\Ticket;
 use SimpleTicketing\Ticket\TicketId;
+use SimpleTicketing\User\UserId;
 
 class TicketRepository extends DBALRepository
 {
@@ -24,19 +25,46 @@ class TicketRepository extends DBALRepository
 			->setParameter(0, (string)$ticketId)
 			->execute();
 
-		if (!$result = $stmt->fetchAssociative()) {
+		$ticketResults = [];
+
+		while ($result = $stmt->fetchAssociative()) {
+			//$ticketResults[$result['id']][] = $result;
+			$ticketResults[] = $result;
+		}
+
+		if (empty($ticketResults)) {
 			return null;
 		}
 
-		return Ticket::fromArray([
-			'id' => $result['id'],
-			'authorId' => $result['authorId'],
-			'status' => $result['status'],
-			'assignedTo' => $result['assignedTo'],
-			'message' => $result['message'],
-			'createdOn' => $result['createdOn'],
-			'updatedOn' => $result['updatedOn']
-		]);
+		return $this->groupMessagesInSingleTicket($ticketResults);
+	}
+
+	/**
+	 * @param UserId $userId
+	 *
+	 * @return Ticket[]
+	 */
+	public function findByUserId(UserId $userId): array
+	{
+		$stmt = $this->connection->createQueryBuilder()
+			->select('Ticket.id', 'authorId', 'status', 'assignedTo', 'message', 'createdOn', 'updatedOn')
+			->from(self::TABLE_NAME)
+			->innerJoin(self::TABLE_NAME, 'TicketMessage', 'tm', 'tm.ticketId = Ticket.id')
+			->where('tm.authorId = ?')
+			->setParameter(0, (string)$userId)
+			->execute();
+
+		$ticketResults = [];
+
+		while ($result = $stmt->fetchAssociative()) {
+			$ticketResults[$result['id']][] = $result;
+		}
+
+		if (empty($ticketResults)) {
+			return [];
+		}
+
+		return $this->groupMessagesInAllTickets($ticketResults);
 	}
 
 	/**
@@ -116,5 +144,45 @@ class TicketRepository extends DBALRepository
 			$this->connection->rollBack();
 			throw $e;
 		}
+	}
+
+	/**
+	 * @param array $ticketResults
+	 *
+	 * @return Ticket[]
+	 */
+	private function groupMessagesInAllTickets(array $ticketResults): array
+	{
+		$tickets = [];
+
+		foreach ($ticketResults as $ticketId => $ticketMessages) {
+			$tickets[] = $this->groupMessagesInSingleTicket($ticketMessages);
+		}
+
+		return $tickets;
+	}
+
+	/**
+	 * @param array $ticketMessages
+	 *
+	 * @return Ticket
+	 */
+	private function groupMessagesInSingleTicket(array $ticketMessages): Ticket
+	{
+		$messages = [];
+
+		foreach ($ticketMessages as $ticketId => $ticketMessage) {
+			$messages[] = $ticketMessage['message'];
+		}
+
+		return Ticket::fromArray([
+			'id' => $ticketMessage['id'],
+			'authorId' => $ticketMessage['authorId'],
+			'status' => $ticketMessage['status'],
+			'assignedTo' => $ticketMessage['assignedTo'],
+			'messages' => $messages,
+			'createdOn' => $ticketMessage['createdOn'],
+			'updatedOn' => $ticketMessage['updatedOn']
+		]);
 	}
 }

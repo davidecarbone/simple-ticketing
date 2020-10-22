@@ -1,0 +1,51 @@
+get:
+  summary: Get ticket by id
+  description: Get ticket details by id
+  operationId: get_tickets_id
+  security:
+    - JWTAuth: []
+  tags:
+    - Tickets
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              authorId:
+                type: string
+              assignedTo:
+                type: string
+              status:
+                type: string
+              messages:
+                type: array
+              createdOn:
+                type: string
+              updatedOn:
+                type: string
+            example:
+              {
+                id: "70d48ec5-ceca-49b8-95e9-4f7ceae20452",
+                authorId: "4d8f38dc-05d4-42a6-93fe-69a72fc533b1",
+                assignedTo: null,
+                status: "Nuovo",
+                messages: [
+                  "hello",
+                  "i need help"
+                ],
+                createdOn: "2020-10-21 19:00:11",
+                updatedOn: "2020-10-21 19:12:56"
+              }
+    '400':
+      $ref: '../components.yaml#components/responses/BadRequest'
+    '401':
+      $ref: '../components.yaml#components/responses/Unauthorized'
+    '403':
+      $ref: '../components.yaml#components/responses/Forbidden'
+    '404':
+      $ref: '../components.yaml#components/responses/NotFound'

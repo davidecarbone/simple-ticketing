@@ -12,3 +12,8 @@ get_tickets:
     path: /tickets
     controller: SimpleTicketing\Controller\TicketsController::getTickets
     methods: GET
+
+get_tickets_id:
+    path: /tickets/{id}
+    controller: SimpleTicketing\Controller\TicketsController::getTicketById
+    methods: GET

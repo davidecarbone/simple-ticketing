@@ -18,10 +18,18 @@ get:
               properties:
                 id:
                   type: string
-                sku:
+                authorId:
                   type: string
-                price:
-                  type: number
+                assignedTo:
+                  type: string
+                status:
+                  type: string
+                messages:
+                  type: array
+                createdOn:
+                  type: string
+                updatedOn:
+                  type: string
             example:
               [
                 {

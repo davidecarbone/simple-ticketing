@@ -9,3 +9,6 @@ paths:
 
   /tickets:
     $ref: './paths/tickets.yaml'
+
+  /tickets/{id}:
+    $ref: './paths/tickets_id.yaml'

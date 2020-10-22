@@ -28,6 +28,13 @@ final class Version20201021162239 extends AbstractMigration
 			COLLATE `utf8mb4_unicode_ci`
 			ENGINE = InnoDB'
         );
+
+	    $this->addSql(
+		    'INSERT INTO TicketMessage (ticketId, authorId, message)
+			 VALUES
+			 	("70d48ec5-ceca-49b8-95e9-4f7ceae20451", "dfd32cbf-de2f-4616-90b6-27fc90632983", "first test message"),
+			 	("70d48ec5-ceca-49b8-95e9-4f7ceae20451", "dfd32cbf-de2f-4616-90b6-27fc90632983", "second test message")'
+	    );
     }
 
     public function down(Schema $schema) : void

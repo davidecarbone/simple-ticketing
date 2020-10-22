@@ -5,7 +5,9 @@ namespace SimpleTicketing\Controller;
 use SimpleTicketing\Authentication\JWT;
 use SimpleTicketing\Repository\TicketRepository;
 use SimpleTicketing\Ticket\Ticket;
+use SimpleTicketing\Ticket\TicketId;
 use SimpleTicketing\Ticket\TicketMessage;
+use SimpleTicketing\Ticket\TicketOwnershipException;
 use SimpleTicketing\User\User;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -48,6 +50,40 @@ class TicketsController implements TokenAuthenticatedController
 	 *
 	 * @return JsonResponse
 	 */
+	public function getTicketById(Request $request): JsonResponse
+	{
+		$user = $this->retrieveUserFromRequest($request);
+		$ticketId = $request->attributes->get('id');
+
+		try {
+			$ticket = $this->ticketRepository->findById(new TicketId($ticketId));
+
+			if (!$ticket) {
+				return new JsonResponse([
+					'error' => 'Resource was not found.'
+				], Response::HTTP_NOT_FOUND);
+			}
+
+			$this->assertTicketBelongsToUser($ticket, $user);
+
+		} catch (TicketOwnershipException $exception) {
+			return new JsonResponse([
+				'error' => $exception->getMessage()
+			], Response::HTTP_FORBIDDEN);
+		} catch (\InvalidArgumentException $exception) {
+			return new JsonResponse([
+				'error' => 'Invalid ticketId format'
+			], Response::HTTP_BAD_REQUEST);
+		}
+
+		return new JsonResponse($ticket, Response::HTTP_OK);
+	}
+
+	/**
+	 * @param Request $request
+	 *
+	 * @return JsonResponse
+	 */
 	public function postTicket(Request $request): JsonResponse
 	{
 		$requestContent = json_decode($request->getContent(), true);
@@ -55,7 +91,7 @@ class TicketsController implements TokenAuthenticatedController
 		$message = $requestContent['message'] ?? null;
 
 		try {
-			$this->assertRequestIsValid($request);
+			$this->assertMessageHasBeenProvided($request);
 
 			$ticket = Ticket::createWithAuthorIdAndMessage($user->id(), new TicketMessage($message));
 
@@ -74,12 +110,25 @@ class TicketsController implements TokenAuthenticatedController
 	 *
 	 * @throws BadRequestException
 	 */
-	private function assertRequestIsValid(Request $request)
+	private function assertMessageHasBeenProvided(Request $request)
 	{
 		$requestContent = json_decode($request->getContent(), true);
 
 		if (empty($requestContent['message'])) {
 			throw new BadRequestException('A message is required.');
+		}
+	}
+
+	/**
+	 * @param Ticket|null $ticket
+	 * @param User        $user
+	 *
+	 * @throws TicketOwnershipException
+	 */
+	private function assertTicketBelongsToUser(?Ticket $ticket, User $user)
+	{
+		if (!$ticket->belongsToUser($user)) {
+			throw new TicketOwnershipException('You don\'t have the permissions to access this resource.');
 		}
 	}
 

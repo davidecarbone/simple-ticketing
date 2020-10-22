@@ -33,6 +33,7 @@ final class Version2020101817031 extends AbstractMigration
 	    $this->addSql(
 		    'INSERT INTO User (id, username, password, fullName, type)
 			VALUES 
+				("dfd32cbf-de2f-4616-90b6-27fc90632983", "test", "$2y$12$S3RahWt0Uh7DsjOXaiOhceqwy2Ryi.rc/ptYpUCKgK4Fsm1hX9jMS", "Test", "ADMIN"),
 				("4d8f38dc-05d4-42a6-93fe-69a72fc533b1", "admin", "$2y$12$S3RahWt0Uh7DsjOXaiOhceqwy2Ryi.rc/ptYpUCKgK4Fsm1hX9jMS", "Administrator", "ADMIN"),
 				("721d5112-e477-419c-9928-acfbb965c761", "user", "$2y$12$9QIS/MiyyIap1d0ueI6iWuMO5Kmx485kLDmBMOTH.Y.sHoBWjRWJu", "Mario Rossi", "CUSTOMER")'
 	    );

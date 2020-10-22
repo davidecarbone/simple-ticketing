@@ -111,6 +111,16 @@ class Ticket implements \JsonSerializable
 
 	/**
 	 * @param User $user
+	 *
+	 * @return bool
+	 */
+    public function belongsToUser(User $user): bool
+    {
+    	return (string)$this->authorId === (string)$user->id();
+    }
+
+	/**
+	 * @param User $user
 	 */
 	public function assignToUser(User $user)
 	{

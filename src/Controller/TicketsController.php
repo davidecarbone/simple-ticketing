@@ -94,6 +94,7 @@ class TicketsController implements TokenAuthenticatedController
 			$this->assertMessageHasBeenProvided($request);
 
 			$ticket = Ticket::createWithMessage(new TicketMessage($message, $user->id()));
+			$location = getenv('API_BASE_URL') . "tickets/{$ticket->id()}";
 
 			$this->ticketRepository->insert($ticket);
 		} catch (BadRequestException | \InvalidArgumentException $exception) {
@@ -102,7 +103,14 @@ class TicketsController implements TokenAuthenticatedController
 			], Response::HTTP_BAD_REQUEST);
 		}
 
-		return new JsonResponse(['message' => 'Ticket successfully created.'], Response::HTTP_CREATED);
+		return new JsonResponse(
+			[
+				'message' => 'Ticket successfully created.',
+			    'ticketId' => (string) $ticket->id()
+			],
+			Response::HTTP_CREATED,
+			['Location' => $location]
+		);
 	}
 
 	/**

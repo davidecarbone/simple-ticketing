@@ -29,7 +29,6 @@ class TicketRepository extends DBALRepository
 		$ticketResults = [];
 
 		while ($result = $stmt->fetchAssociative()) {
-			//$ticketResults[$result['id']][] = $result;
 			$ticketResults[] = $result;
 		}
 

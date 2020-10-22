@@ -17,7 +17,7 @@ services:
       - .:/var/www/html
       - vendor:/var/www/html/vendor
     environment:
-      - API_BASE_URL=web:80/
+      - API_BASE_URL=http://localhost:8080/
       - DB_HOST=db
       - DB_USERNAME=root
       - DB_PASSWORD=password

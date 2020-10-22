@@ -5,7 +5,6 @@ namespace SimpleTicketing\Tests\Unit\Ticket;
 use PHPUnit\Framework\TestCase;
 use SimpleTicketing\Ticket\ForbiddenTicketAssignationException;
 use SimpleTicketing\Ticket\Ticket;
-use SimpleTicketing\Ticket\TicketId;
 use SimpleTicketing\Ticket\TicketMessage;
 use SimpleTicketing\Ticket\TicketStatus;
 use SimpleTicketing\User\User;
@@ -17,16 +16,14 @@ class TicketTest extends TestCase
     public function can_be_built_with_author_and_message_and_exported_to_array()
     {
     	$authorId = new UserId();
-
-	    $message = new TicketMessage('test message');
-        $ticket = Ticket::createWithAuthorIdAndMessage($authorId, $message);
+        $ticket = Ticket::createWithMessage(new TicketMessage('test message', $authorId));
         $ticketData = $ticket->toArray();
 
         $this->assertIsString($ticketData['id']);
-        $this->assertEquals($authorId, $ticketData['authorId']);
         $this->assertNull($ticketData['assignedTo']);
         $this->assertEquals('Nuovo', $ticketData['status']);
-        $this->assertEquals('test message', $ticketData['messages'][0]);
+        $this->assertEquals('test message', $ticketData['messages'][0]['body']);
+        $this->assertEquals($authorId, $ticketData['messages'][0]['authorId']);
         $this->assertIsString($ticketData['createdOn']);
         $this->assertIsString($ticketData['updatedOn']);
     }
@@ -43,8 +40,7 @@ class TicketTest extends TestCase
 		    'fullName' => 'customer test'
 	    ]);
 
-	    $message = new TicketMessage('test');
-	    $ticket = Ticket::createWithAuthorIdAndMessage(new UserId(), $message);
+	    $ticket = Ticket::createWithMessage(new TicketMessage('test', new UserId()));
 
 	    $ticket->assignToUser($user);
     }
@@ -60,8 +56,7 @@ class TicketTest extends TestCase
 			'fullName' => 'admin test'
 		]);
 
-		$message = new TicketMessage('test');
-		$ticket = Ticket::createWithAuthorIdAndMessage(new UserId(), $message);
+		$ticket = Ticket::createWithMessage(new TicketMessage('test', new UserId()));
 		$ticket->assignToUser($admin);
 		$ticketData = $ticket->toArray();
 

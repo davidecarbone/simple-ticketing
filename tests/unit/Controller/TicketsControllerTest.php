@@ -102,7 +102,7 @@ class TicketsControllerTest extends TestCase
 			->expects($this->once())
 			->method('findByUserId')
 			->with($userId)
-			->willReturn([Ticket::createWithAuthorIdAndMessage($userId, new TicketMessage('test'))]);
+			->willReturn([Ticket::createWithMessage(new TicketMessage('test', $userId))]);
 
 		$this->jwtMock
 			->expects($this->once())
@@ -126,7 +126,7 @@ class TicketsControllerTest extends TestCase
 	public function get_tickets_id_should_respond_200()
 	{
 		$userId = new UserId('4d8f38dc-05d4-42a6-93fe-69a72fc533b1');
-		$ticket = Ticket::createWithAuthorIdAndMessage($userId, new TicketMessage('test'));
+		$ticket = Ticket::createWithMessage(new TicketMessage('test', $userId));
 
 		$this->ticketRepositoryMock
 			->expects($this->once())
@@ -183,7 +183,7 @@ class TicketsControllerTest extends TestCase
 	public function get_tickets_id_should_respond_403_when_ticket_doesnt_belong_to_user()
 	{
 		$userId = new UserId('4d8f38dc-05d4-42a6-93fe-69a72fc533c3');
-		$ticket = Ticket::createWithAuthorIdAndMessage($userId, new TicketMessage('test'));
+		$ticket = Ticket::createWithMessage(new TicketMessage('test', $userId));
 
 		$this->ticketRepositoryMock
 			->expects($this->once())

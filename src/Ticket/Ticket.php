@@ -10,9 +10,6 @@ class Ticket implements \JsonSerializable
 	/** @var TicketId */
     private $id;
 
-    /** @var UserId */
-    private $authorId;
-
 	/** @var UserId */
 	private $assignedTo;
 
@@ -33,16 +30,14 @@ class Ticket implements \JsonSerializable
     }
 
 	/**
-	 * @param UserId        $authorId
 	 * @param TicketMessage $message
 	 *
 	 * @return Ticket
 	 */
-    public static function createWithAuthorIdAndMessage(UserId $authorId, TicketMessage $message): Ticket
+    public static function createWithMessage(TicketMessage $message): Ticket
     {
     	$ticket = new self;
     	$ticket->id = new TicketId();
-    	$ticket->authorId = $authorId;
     	$ticket->assignedTo = null;
     	$ticket->status = new TicketStatus(TicketStatus::NEW);
     	$ticket->messages[] = $message;
@@ -61,7 +56,6 @@ class Ticket implements \JsonSerializable
 	{
 		$ticket = new self;
 		$ticket->id = new TicketId($ticketData['id']);
-		$ticket->authorId = new UserId($ticketData['authorId']);
 		$ticket->assignedTo = $ticketData['assignedTo'];
 		$ticket->status = new TicketStatus($ticketData['status']);
 		$ticket->messages = $ticketData['messages'];
@@ -78,7 +72,6 @@ class Ticket implements \JsonSerializable
     {
     	return [
     		'id' => (string)$this->id,
-		    'authorId' => (string)$this->authorId,
 		    'assignedTo' => $this->assignedTo ? (string)$this->assignedTo : null,
 		    'status' => (string)$this->status,
 		    'messages' => $this->messageList(),
@@ -103,7 +96,7 @@ class Ticket implements \JsonSerializable
     	$messageList = [];
 
 	    foreach ($this->messages as $message) {
-		    $messageList[] = (string) $message;
+		    $messageList[] = $message->toArray();
     	}
 
 	    return $messageList;
@@ -116,7 +109,13 @@ class Ticket implements \JsonSerializable
 	 */
     public function belongsToUser(User $user): bool
     {
-    	return (string)$this->authorId === (string)$user->id();
+	    foreach ($this->messages as $message) {
+		    if ((string)$message->authorId() === (string)$user->id()) {
+		    	return true;
+		    }
+	    }
+
+    	return false;
     }
 
 	/**

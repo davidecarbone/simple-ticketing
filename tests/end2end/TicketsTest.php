@@ -32,10 +32,11 @@ class ProductsTest extends ContainerAwareTest
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertIsArray($responseBody);
 	    $this->assertArrayHasKey('id', $responseBody[0]);
-	    $this->assertArrayHasKey('authorId', $responseBody[0]);
 	    $this->assertArrayHasKey('assignedTo', $responseBody[0]);
 	    $this->assertArrayHasKey('status', $responseBody[0]);
 	    $this->assertArrayHasKey('messages', $responseBody[0]);
+	    $this->assertArrayHasKey('body', $responseBody[0]['messages'][0]);
+	    $this->assertArrayHasKey('authorId', $responseBody[0]['messages'][0]);
 	    $this->assertArrayHasKey('createdOn', $responseBody[0]);
 	    $this->assertArrayHasKey('updatedOn', $responseBody[0]);
     }
@@ -69,10 +70,11 @@ class ProductsTest extends ContainerAwareTest
 
 		$this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 		$this->assertArrayHasKey('id', $responseBody);
-		$this->assertArrayHasKey('authorId', $responseBody);
 		$this->assertArrayHasKey('assignedTo', $responseBody);
 		$this->assertArrayHasKey('status', $responseBody);
 		$this->assertArrayHasKey('messages', $responseBody);
+		$this->assertArrayHasKey('body', $responseBody['messages'][0]);
+		$this->assertArrayHasKey('authorId', $responseBody['messages'][0]);
 		$this->assertArrayHasKey('createdOn', $responseBody);
 		$this->assertArrayHasKey('updatedOn', $responseBody);
 	}

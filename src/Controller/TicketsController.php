@@ -93,7 +93,7 @@ class TicketsController implements TokenAuthenticatedController
 		try {
 			$this->assertMessageHasBeenProvided($request);
 
-			$ticket = Ticket::createWithAuthorIdAndMessage($user->id(), new TicketMessage($message));
+			$ticket = Ticket::createWithMessage(new TicketMessage($message, $user->id()));
 
 			$this->ticketRepository->insert($ticket);
 		} catch (BadRequestException | \InvalidArgumentException $exception) {

@@ -4,6 +4,7 @@ namespace SimpleTicketing\Repository;
 
 use SimpleTicketing\Ticket\Ticket;
 use SimpleTicketing\Ticket\TicketId;
+use SimpleTicketing\Ticket\TicketMessage;
 use SimpleTicketing\User\UserId;
 
 class TicketRepository extends DBALRepository
@@ -104,8 +105,8 @@ class TicketRepository extends DBALRepository
 					'message' => '?'
 				])
 				->setParameter(0, $ticketData['id'])
-				->setParameter(1, $ticketData['authorId'])
-				->setParameter(2, $ticketData['messages'][0])
+				->setParameter(1, $ticketData['messages'][0]['authorId'])
+				->setParameter(2, $ticketData['messages'][0]['body'])
 				->execute();
 
 			$this->connection->commit();
@@ -172,12 +173,11 @@ class TicketRepository extends DBALRepository
 		$messages = [];
 
 		foreach ($ticketMessages as $ticketId => $ticketMessage) {
-			$messages[] = $ticketMessage['message'];
+			$messages[] = new TicketMessage($ticketMessage['message'], new UserId($ticketMessage['authorId']));
 		}
 
 		return Ticket::fromArray([
 			'id' => $ticketMessage['id'],
-			'authorId' => $ticketMessage['authorId'],
 			'status' => $ticketMessage['status'],
 			'assignedTo' => $ticketMessage['assignedTo'],
 			'messages' => $messages,

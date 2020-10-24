@@ -124,11 +124,46 @@ class Ticket implements \JsonSerializable
 	public function assignToUser(User $user)
 	{
 		if (!$user->isAdmin()) {
-			throw new ForbiddenTicketAssignationException("Cannot assign ticket to non-admin users.");
+			throw new ForbiddenTicketAssignationException('Cannot assign ticket to non-admin users.');
 		}
 
 		$this->assignedTo = $user->id();
 		$this->status = TicketStatus::ASSIGNED;
+	}
+
+	/**
+	 * @param TicketMessage $message
+	 * @param User          $author
+	 *
+	 * @throws TicketOwnershipException
+	 * @throws InvalidTicketStateException
+	 */
+	public function addMessageForUser(TicketMessage $message, User $author)
+	{
+		switch ((string)$this->status) {
+			case TicketStatus::NEW:
+				if (!$author->isAdmin() && !$this->belongsToUser($author)) {
+					throw new TicketOwnershipException('Cannot add messages to non-owned tickets.');
+				}
+				break;
+
+			case TicketStatus::ASSIGNED:
+				if ($this->assignedTo !== $author->id() && !$this->belongsToUser($author)) {
+					throw new TicketOwnershipException('Cannot add messages to non-owned tickets.');
+				}
+				break;
+
+			case TicketStatus::CLOSED:
+				throw new InvalidTicketStateException('Cannot add messages to closed tickets.');
+				break;
+		}
+
+		if ($author->isAdmin()) {
+			$this->assignToUser($author);
+		}
+
+		$this->messages[] = $message;
+		$this->updatedOn = (new \DateTime())->format('Y-m-d H:i:s');
 	}
 
 	public function jsonSerialize()

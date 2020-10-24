@@ -1,53 +1,3 @@
-get:
-  summary: List all tickets of the current user
-  description: List all tickets associated with the given JWT token
-  operationId: get_tickets
-  security:
-    - JWTAuth: []
-  tags:
-    - Tickets
-  responses:
-    '200':
-      description: OK
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
-              type: object
-              properties:
-                id:
-                  type: string
-                authorId:
-                  type: string
-                assignedTo:
-                  type: string
-                status:
-                  type: string
-                messages:
-                  type: array
-                createdOn:
-                  type: string
-                updatedOn:
-                  type: string
-            example:
-              [
-                {
-                  id: "70d48ec5-ceca-49b8-95e9-4f7ceae20452",
-                  authorId: "4d8f38dc-05d4-42a6-93fe-69a72fc533b1",
-                  assignedTo: null,
-                  status: "Nuovo",
-                  messages: [
-                    "hello",
-                    "i need help"
-                  ],
-                  createdOn: "2020-10-21 19:00:11",
-                  updatedOn: "2020-10-21 19:12:56"
-                }
-              ]
-    '401':
-      $ref: '../components.yaml#components/responses/Unauthorized'
-
 post:
   summary: Create a ticket
   description: Create a new ticket authoring it with the given JWT token
@@ -96,5 +46,55 @@ post:
           description: The location of the created ticket
     '400':
       $ref: '../components.yaml#components/responses/BadRequest'
+    '401':
+      $ref: '../components.yaml#components/responses/Unauthorized'
+
+get:
+  summary: List all tickets of the current user
+  description: List all tickets associated with the given JWT token
+  operationId: get_tickets
+  security:
+    - JWTAuth: []
+  tags:
+    - Tickets
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                authorId:
+                  type: string
+                assignedTo:
+                  type: string
+                status:
+                  type: string
+                messages:
+                  type: array
+                createdOn:
+                  type: string
+                updatedOn:
+                  type: string
+            example:
+              [
+                {
+                  id: "70d48ec5-ceca-49b8-95e9-4f7ceae20452",
+                  authorId: "4d8f38dc-05d4-42a6-93fe-69a72fc533b1",
+                  assignedTo: null,
+                  status: "Nuovo",
+                  messages: [
+                    "hello",
+                    "i need help"
+                  ],
+                  createdOn: "2020-10-21 19:00:11",
+                  updatedOn: "2020-10-21 19:12:56"
+                }
+              ]
     '401':
       $ref: '../components.yaml#components/responses/Unauthorized'

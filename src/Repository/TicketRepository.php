@@ -118,6 +118,52 @@ class TicketRepository extends DBALRepository
 	}
 
 	/**
+	 * @param Ticket $ticket
+	 *
+	 * @return TicketId
+	 * @throws \Exception
+	 */
+	public function update(Ticket $ticket): TicketId
+	{
+		$ticketData = $ticket->toArray();
+
+		$this->connection->beginTransaction();
+
+		try {
+			$this->connection->createQueryBuilder()
+				->update(self::TABLE_NAME)
+				->set('status', '?')
+				->set('assignedTo', '?')
+				->set('updatedOn', '?')
+				->where('id = ?')
+				->setParameter(0, $ticketData['status'])
+				->setParameter(1, $ticketData['assignedTo'])
+				->setParameter(2, $ticketData['updatedOn'])
+				->setParameter(3, $ticketData['id'])
+				->execute();
+
+			$this->connection->createQueryBuilder()
+				->insert('TicketMessage')
+				->values([
+					'ticketId' => '?',
+					'authorId' => '?',
+					'message' => '?'
+				])
+				->setParameter(0, $ticketData['id'])
+				->setParameter(1, end($ticketData['messages'])['authorId'])
+				->setParameter(2, end($ticketData['messages'])['body'])
+				->execute();
+
+			$this->connection->commit();
+		} catch (\Exception $e) {
+			$this->connection->rollBack();
+			throw $e;
+		}
+
+		return $ticket->id();
+	}
+
+	/**
 	 * @param TicketId $ticketId
 	 *
 	 * @throws \Exception

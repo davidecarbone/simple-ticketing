@@ -1,7 +1,7 @@
 components:
   responses:
     BadRequest:
-      description: The request is not valid
+      description: "The request is not valid: required fields are missing or malformed"
       content:
         application/json:
           schema:

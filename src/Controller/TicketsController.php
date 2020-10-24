@@ -4,6 +4,8 @@ namespace SimpleTicketing\Controller;
 
 use SimpleTicketing\Authentication\JWT;
 use SimpleTicketing\Repository\TicketRepository;
+use SimpleTicketing\Ticket\InvalidTicketException;
+use SimpleTicketing\Ticket\InvalidTicketStateException;
 use SimpleTicketing\Ticket\Ticket;
 use SimpleTicketing\Ticket\TicketId;
 use SimpleTicketing\Ticket\TicketMessage;
@@ -116,6 +118,49 @@ class TicketsController implements TokenAuthenticatedController
 	/**
 	 * @param Request $request
 	 *
+	 * @return JsonResponse
+	 */
+	public function putTicketMessage(Request $request): JsonResponse
+	{
+		$requestContent = json_decode($request->getContent(), true);
+		$user = $this->retrieveUserFromRequest($request);
+		$message = $requestContent['message'] ?? null;
+		$ticketId = $request->attributes->get('id');
+
+		try {
+			$this->assertMessageHasBeenProvided($request);
+
+			$ticket = $this->ticketRepository->findById(new TicketId($ticketId));
+
+			$this->assertTicketExists($ticket);
+
+			$ticketMessage = new TicketMessage($message, $user->id());
+
+			$ticket->addMessageForUser($ticketMessage, $user);
+			$this->ticketRepository->update($ticket);
+
+		} catch (BadRequestException | \InvalidArgumentException $exception) {
+			return new JsonResponse([
+				'error' => $exception->getMessage()
+			], Response::HTTP_BAD_REQUEST);
+		} catch (TicketOwnershipException $exception) {
+			return new JsonResponse([
+				'error' => $exception->getMessage()
+			], Response::HTTP_FORBIDDEN);
+		} catch (InvalidTicketException | InvalidTicketStateException $exception) {
+			return new JsonResponse([
+				'error' => $exception->getMessage()
+			], Response::HTTP_UNPROCESSABLE_ENTITY);
+		}
+
+		return new JsonResponse([
+			'message' => 'Ticket successfully updated.',
+		], Response::HTTP_OK);
+	}
+
+	/**
+	 * @param Request $request
+	 *
 	 * @throws BadRequestException
 	 */
 	private function assertMessageHasBeenProvided(Request $request)
@@ -137,6 +182,18 @@ class TicketsController implements TokenAuthenticatedController
 	{
 		if (!$ticket->belongsToUser($user)) {
 			throw new TicketOwnershipException('You don\'t have the permissions to access this resource.');
+		}
+	}
+
+	/**
+	 * @param Ticket|null $ticket
+	 *
+	 * @throws InvalidTicketException
+	 */
+	private function assertTicketExists(?Ticket $ticket)
+	{
+		if (!$ticket instanceof Ticket) {
+			throw new InvalidTicketException('Ticket does not exist.');
 		}
 	}
 

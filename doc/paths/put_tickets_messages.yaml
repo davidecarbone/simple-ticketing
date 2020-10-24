@@ -1,0 +1,63 @@
+put:
+  summary: Add a message to a ticket
+  description: Update an existing ticket adding a new message
+  operationId: put_tickets_messages
+  security:
+    - JWTAuth: []
+  tags:
+    - Tickets
+  parameters:
+    - name: JWT
+      in: header
+      schema:
+        type: string
+      required: true
+      description: a valid JWT token
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+          required:
+            - message
+        example:
+          {
+            'message': new message
+          }
+  responses:
+    '200':
+      description: Ticket updated successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    '400':
+      $ref: '../components.yaml#components/responses/BadRequest'
+    '401':
+      $ref: '../components.yaml#components/responses/Unauthorized'
+    '403':
+      description: "The ticket is not accessible to the user: either the user does not own the ticket, or the admin has not the permissions to update it"
+      content:
+        application/json:
+          schema:
+            required:
+              - error
+            properties:
+              error:
+                type: string
+    '422':
+      description: The ticket is invalid or is in an invalid state, e.g. it's already closed
+      content:
+        application/json:
+          schema:
+            required:
+              - error
+            properties:
+              error:
+                type: string

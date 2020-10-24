@@ -8,6 +8,11 @@ post_tickets:
     controller: SimpleTicketing\Controller\TicketsController::postTicket
     methods: POST
 
+put_tickets:
+    path: /tickets/{id}/messages
+    controller: SimpleTicketing\Controller\TicketsController::putTicketMessage
+    methods: PUT
+
 get_tickets:
     path: /tickets
     controller: SimpleTicketing\Controller\TicketsController::getTickets

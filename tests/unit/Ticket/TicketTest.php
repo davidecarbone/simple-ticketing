@@ -120,26 +120,47 @@ class TicketTest extends TestCase
 	/** @test */
 	public function if_status_is_closed_cannot_be_added_messages_by_users()
 	{
-		$this->markTestSkipped();
 		$this->expectException(InvalidTicketStateException::class);
 
 		$user = $this->getUser();
 		$ticket = Ticket::createWithMessage(new TicketMessage('test message', $user->id()));
-		//$ticket->close(); //TODO
+		$ticket->closeByUser($user);
 		$ticket->addMessageForUser(new TicketMessage('new test message', $user->id()), $user);
 	}
 
 	/** @test */
 	public function if_status_is_closed_cannot_be_added_messages_by_admins()
 	{
-		$this->markTestSkipped();
 		$this->expectException(InvalidTicketStateException::class);
 
 		$user = $this->getUser();
 		$admin = $this->getUser('ADMIN');
 		$ticket = Ticket::createWithMessage(new TicketMessage('test message', $user->id()));
-		//$ticket->close(); //TODO
+		$ticket->closeByUser($user);
 		$ticket->addMessageForUser(new TicketMessage('new test message', $admin->id()), $admin);
+	}
+
+	/** @test */
+	public function can_be_closed_by_users_owning_it()
+	{
+		$user = $this->getUser('CUSTOMER');
+
+		$ticket = Ticket::createWithMessage(new TicketMessage('test message', $user->id()));
+		$ticket->closeByUser($user);
+		$ticketData = $ticket->toArray();
+
+		$this->assertEquals('Chiuso', $ticketData['status']);
+	}
+
+	/** @test */
+	public function cannot_be_closed_by_users_not_owning_it()
+	{
+		$this->expectException(TicketOwnershipException::class);
+
+		$anotherUser = $this->getUser('CUSTOMER');
+
+		$ticket = Ticket::createWithMessage(new TicketMessage('test message', new UserId()));
+		$ticket->closeByUser($anotherUser);
 	}
 
 	/**

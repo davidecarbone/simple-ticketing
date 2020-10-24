@@ -195,10 +195,10 @@ class TicketsControllerTest extends TestCase
 			->method('decode')
 			->willReturn([
 				'id' => '4d8f38dc-05d4-42a6-93fe-69a72fc533b1',
-				'username' => 'admin',
+				'username' => 'user',
 				'password' => 'test',
-				'type' => 'ADMIN',
-				'fullName' => 'admin test'
+				'type' => 'CUSTOMER',
+				'fullName' => 'user test'
 			]);
 
 		$request = Request::create("/tickets", 'GET');
@@ -252,7 +252,7 @@ class TicketsControllerTest extends TestCase
 
 		$this->ticketRepositoryMock
 			->expects($this->once())
-			->method('update')
+			->method('updateMessages')
 			->with($ticket)
 			->willReturn($ticket->id());
 
@@ -286,7 +286,7 @@ class TicketsControllerTest extends TestCase
 	{
 		$this->ticketRepositoryMock
 			->expects($this->never())
-			->method('update');
+			->method('updateMessages');
 
 		$this->jwtMock
 			->expects($this->once())
@@ -325,7 +325,7 @@ class TicketsControllerTest extends TestCase
 
 		$this->ticketRepositoryMock
 			->expects($this->never())
-			->method('update');
+			->method('updateMessages');
 
 		$this->jwtMock
 			->expects($this->once())
@@ -366,7 +366,7 @@ class TicketsControllerTest extends TestCase
 
 		$this->ticketRepositoryMock
 			->expects($this->never())
-			->method('update');
+			->method('updateMessages');
 
 		$this->jwtMock
 			->expects($this->once())
@@ -413,7 +413,7 @@ class TicketsControllerTest extends TestCase
 
 		$this->ticketRepositoryMock
 			->expects($this->never())
-			->method('update');
+			->method('updateMessages');
 
 		$this->jwtMock
 			->expects($this->once())
@@ -432,6 +432,161 @@ class TicketsControllerTest extends TestCase
 		$request->attributes->set('id', $ticket->id());
 
 		$response = $this->ticketsController->putTicketMessage($request);
+		$responseContent = json_decode($response->getContent(), true);
+
+		$this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+		$this->assertArrayHasKey('error', $responseContent);
+	}
+
+	/** @test */
+	public function put_tickets_status_successful_responds_200_with_a_message()
+	{
+		$userId = new UserId('4d8f38dc-05d4-42a6-93fe-69a72fc533c3');
+		$ticket = Ticket::createWithMessage(new TicketMessage('test', $userId));
+
+		$this->ticketRepositoryMock
+			->expects($this->once())
+			->method('findById')
+			->with($ticket->id())
+			->willReturn($ticket);
+
+		$this->ticketRepositoryMock
+			->expects($this->once())
+			->method('updateStatus')
+			->with($ticket)
+			->willReturn($ticket->id());
+
+		$this->jwtMock
+			->expects($this->once())
+			->method('decode')
+			->willReturn([
+				'id' => '4d8f38dc-05d4-42a6-93fe-69a72fc533c3',
+				'username' => 'admin',
+				'password' => 'test',
+				'type' => 'CUSTOMER',
+				'fullName' => 'user test'
+			]);
+
+		$request = Request::create("/tickets/{$ticket->id()}/status", 'PUT', [], [], [], [], json_encode([
+			'status' => 'Chiuso'
+		]));
+		$request->attributes->set('id', $ticket->id());
+
+		$response = $this->ticketsController->putTicketStatus($request);
+		$responseContent = json_decode($response->getContent(), true);
+
+		$this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+		$this->assertArrayHasKey('message', $responseContent);
+	}
+
+	/**
+	 * @test
+	 */
+	public function put_tickets_status_should_respond_400_when_status_is_not_valid()
+	{
+		$this->ticketRepositoryMock
+			->expects($this->never())
+			->method('updateStatus');
+
+		$this->jwtMock
+			->expects($this->once())
+			->method('decode')
+			->willReturn([
+				'id' => '4d8f38dc-05d4-42a6-93fe-69a72fc533b1',
+				'username' => 'admin',
+				'password' => 'test',
+				'type' => 'CUSTOMER',
+				'fullName' => 'user test'
+			]);
+
+		$request = Request::create('/tickets/402d7e77-4689-4faa-94c7-54139842602e/status', 'PUT', [], [], [], [], json_encode([
+			'status' => 'Nuovo'
+		]));
+		$request->attributes->set('id', '402d7e77-4689-4faa-94c7-54139842602e');
+
+		$response = $this->ticketsController->putTicketStatus($request);
+		$responseContent = json_decode($response->getContent(), true);
+
+		$this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+		$this->assertArrayHasKey('error', $responseContent);
+	}
+
+	/**
+	 * @test
+	 */
+	public function put_tickets_status_should_respond_403_when_user_does_not_have_permissions_to_close_it()
+	{
+		$userId = new UserId('4d8f38dc-05d4-42a6-93fe-69a72fc533c3');
+		$ticket = Ticket::createWithMessage(new TicketMessage('test', $userId));
+
+		$this->ticketRepositoryMock
+			->expects($this->once())
+			->method('findById')
+			->with($ticket->id())
+			->willReturn($ticket);
+
+		$this->ticketRepositoryMock
+			->expects($this->never())
+			->method('updateStatus');
+
+		$this->jwtMock
+			->expects($this->once())
+			->method('decode')
+			->willReturn([
+				'id' => '4d8f38dc-05d4-42a6-93fe-69a72fc533d4',
+				'username' => 'admin',
+				'password' => 'test',
+				'type' => 'CUSTOMER',
+				'fullName' => 'user test'
+			]);
+
+		$request = Request::create("/tickets/{$ticket->id()}/status", 'PUT', [], [], [], [], json_encode([
+			'status' => 'Chiuso'
+		]));
+		$request->attributes->set('id', $ticket->id());
+
+		$response = $this->ticketsController->putTicketStatus($request);
+		$responseContent = json_decode($response->getContent(), true);
+
+		$this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
+		$this->assertArrayHasKey('error', $responseContent);
+	}
+
+	/**
+	 * @test
+	 */
+	public function put_tickets_status_should_respond_422_when_ticket_does_not_exist()
+	{
+		$userId = new UserId('4d8f38dc-05d4-42a6-93fe-69a72fc533c3');
+		$ticket = Ticket::createWithMessage(new TicketMessage('test', $userId));
+
+		$this->ticketRepositoryMock
+			->expects($this->once())
+			->method('findById')
+			->with($ticket->id())
+			->willReturn(null);
+
+		$this->ticketRepositoryMock
+			->expects($this->never())
+			->method('updateStatus');
+
+		$this->jwtMock
+			->expects($this->once())
+			->method('decode')
+			->willReturn([
+				'id' => '4d8f38dc-05d4-42a6-93fe-69a72fc533c3',
+				'username' => 'admin',
+				'password' => 'test',
+				'type' => 'CUSTOMER',
+				'fullName' => 'user test'
+			]);
+
+		$request = Request::create("/tickets/{$ticket->id()}/status", 'PUT', [], [], [], [], json_encode([
+			'status' => 'Chiuso'
+		]));
+		$request->attributes->set('id', $ticket->id());
+
+		$response = $this->ticketsController->putTicketStatus($request);
 		$responseContent = json_decode($response->getContent(), true);
 
 		$this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());

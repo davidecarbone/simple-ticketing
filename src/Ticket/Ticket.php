@@ -107,8 +107,16 @@ class Ticket implements \JsonSerializable
 	 *
 	 * @return bool
 	 */
-    public function belongsToUser(User $user): bool
+    public function isAccessibleByUser(User $user): bool
     {
+    	if ($this->status == TicketStatus::NEW && $user->isAdmin()) {
+    		return true;
+	    }
+
+	    if ($this->status == TicketStatus::ASSIGNED && $this->assignedTo === $user->id()) {
+		    return true;
+	    }
+
 	    foreach ($this->messages as $message) {
 		    if ((string)$message->authorId() === (string)$user->id()) {
 		    	return true;
@@ -142,13 +150,8 @@ class Ticket implements \JsonSerializable
 	{
 		switch ((string)$this->status) {
 			case TicketStatus::NEW:
-				if (!$author->isAdmin() && !$this->belongsToUser($author)) {
-					throw new TicketOwnershipException('Cannot add messages to non-owned tickets.');
-				}
-				break;
-
 			case TicketStatus::ASSIGNED:
-				if ($this->assignedTo !== $author->id() && !$this->belongsToUser($author)) {
+				if (!$this->isAccessibleByUser($author)) {
 					throw new TicketOwnershipException('Cannot add messages to non-owned tickets.');
 				}
 				break;
@@ -164,6 +167,18 @@ class Ticket implements \JsonSerializable
 
 		$this->messages[] = $message;
 		$this->updatedOn = (new \DateTime())->format('Y-m-d H:i:s');
+	}
+
+	/**
+	 * @param User $user
+	 */
+	public function closeByUser(User $user)
+	{
+		if (!$this->isAccessibleByUser($user)) {
+			throw new TicketOwnershipException('Cannot close non-owned tickets.');
+		}
+
+		$this->status = TicketStatus::CLOSED;
 	}
 
 	public function jsonSerialize()

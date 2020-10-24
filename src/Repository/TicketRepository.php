@@ -123,7 +123,7 @@ class TicketRepository extends DBALRepository
 	 * @return TicketId
 	 * @throws \Exception
 	 */
-	public function update(Ticket $ticket): TicketId
+	public function updateMessages(Ticket $ticket): TicketId
 	{
 		$ticketData = $ticket->toArray();
 
@@ -159,6 +159,27 @@ class TicketRepository extends DBALRepository
 			$this->connection->rollBack();
 			throw $e;
 		}
+
+		return $ticket->id();
+	}
+
+	/**
+	 * @param Ticket $ticket
+	 *
+	 * @return TicketId
+	 * @throws \Exception
+	 */
+	public function updateStatus(Ticket $ticket): TicketId
+	{
+		$ticketData = $ticket->toArray();
+
+		$this->connection->createQueryBuilder()
+			->update(self::TABLE_NAME)
+			->set('status', '?')
+			->where('id = ?')
+			->setParameter(0, $ticketData['status'])
+			->setParameter(1, $ticketData['id'])
+			->execute();
 
 		return $ticket->id();
 	}

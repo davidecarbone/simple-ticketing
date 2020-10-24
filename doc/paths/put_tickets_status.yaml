@@ -1,7 +1,7 @@
 put:
-  summary: Add a message to a ticket
-  description: Update an existing ticket adding a new message
-  operationId: put_tickets_messages
+  summary: Close a ticket
+  description: Update an existing ticket status to "Closed"
+  operationId: put_tickets_status
   security:
     - JWTAuth: []
   tags:
@@ -19,13 +19,13 @@ put:
         schema:
           type: object
           properties:
-            message:
+            status:
               type: string
           required:
-            - message
+            - status
         example:
           {
-            'message': new message
+            'status': Chiuso
           }
   responses:
     '200':
@@ -52,7 +52,7 @@ put:
               error:
                 type: string
     '422':
-      description: The ticket is invalid or is in an invalid state, e.g. it's already closed
+      description: The ticket is invalid or it does not exist
       content:
         application/json:
           schema:

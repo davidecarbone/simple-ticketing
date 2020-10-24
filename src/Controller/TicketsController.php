@@ -10,6 +10,7 @@ use SimpleTicketing\Ticket\Ticket;
 use SimpleTicketing\Ticket\TicketId;
 use SimpleTicketing\Ticket\TicketMessage;
 use SimpleTicketing\Ticket\TicketOwnershipException;
+use SimpleTicketing\Ticket\TicketStatus;
 use SimpleTicketing\User\User;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -137,7 +138,7 @@ class TicketsController implements TokenAuthenticatedController
 			$ticketMessage = new TicketMessage($message, $user->id());
 
 			$ticket->addMessageForUser($ticketMessage, $user);
-			$this->ticketRepository->update($ticket);
+			$this->ticketRepository->updateMessages($ticket);
 
 		} catch (BadRequestException | \InvalidArgumentException $exception) {
 			return new JsonResponse([
@@ -148,6 +149,47 @@ class TicketsController implements TokenAuthenticatedController
 				'error' => $exception->getMessage()
 			], Response::HTTP_FORBIDDEN);
 		} catch (InvalidTicketException | InvalidTicketStateException $exception) {
+			return new JsonResponse([
+				'error' => $exception->getMessage()
+			], Response::HTTP_UNPROCESSABLE_ENTITY);
+		}
+
+		return new JsonResponse([
+			'message' => 'Ticket successfully updated.',
+		], Response::HTTP_OK);
+	}
+
+	/**
+	 * @param Request $request
+	 *
+	 * @return JsonResponse
+	 */
+	public function putTicketStatus(Request $request): JsonResponse
+	{
+		$requestContent = json_decode($request->getContent(), true);
+		$user = $this->retrieveUserFromRequest($request);
+		$status = $requestContent['status'] ?? null;
+		$ticketId = $request->attributes->get('id');
+
+		try {
+			$this->assertStatusIsValid($status);
+
+			$ticket = $this->ticketRepository->findById(new TicketId($ticketId));
+
+			$this->assertTicketExists($ticket);
+
+			$ticket->closeByUser($user);
+			$this->ticketRepository->updateStatus($ticket);
+
+		} catch (BadRequestException | \InvalidArgumentException $exception) {
+			return new JsonResponse([
+				'error' => $exception->getMessage()
+			], Response::HTTP_BAD_REQUEST);
+		} catch (TicketOwnershipException $exception) {
+			return new JsonResponse([
+				'error' => $exception->getMessage()
+			], Response::HTTP_FORBIDDEN);
+		} catch (InvalidTicketException $exception) {
 			return new JsonResponse([
 				'error' => $exception->getMessage()
 			], Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -180,7 +222,7 @@ class TicketsController implements TokenAuthenticatedController
 	 */
 	private function assertTicketBelongsToUser(?Ticket $ticket, User $user)
 	{
-		if (!$ticket->belongsToUser($user)) {
+		if (!$ticket->isAccessibleByUser($user)) {
 			throw new TicketOwnershipException('You don\'t have the permissions to access this resource.');
 		}
 	}
@@ -194,6 +236,16 @@ class TicketsController implements TokenAuthenticatedController
 	{
 		if (!$ticket instanceof Ticket) {
 			throw new InvalidTicketException('Ticket does not exist.');
+		}
+	}
+
+	/**
+	 * @param string|null $status
+	 */
+	private function assertStatusIsValid(?string $status)
+	{
+		if (empty($status) || $status != TicketStatus::CLOSED) {
+			throw new BadRequestException('Status is missing or is not allowed.');
 		}
 	}
 

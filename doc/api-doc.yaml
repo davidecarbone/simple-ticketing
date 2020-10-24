@@ -15,3 +15,6 @@ paths:
 
   /tickets/{id}/messages:
     $ref: './paths/put_tickets_messages.yaml'
+
+  /tickets/{id}/status:
+    $ref: './paths/put_tickets_status.yaml'

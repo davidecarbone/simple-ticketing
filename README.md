@@ -28,6 +28,12 @@ Available endpoints are fully documented with OpenAPI 3.0.
 
 Swagger UI is available at http://localhost:8082
 
+### Test users
+The installation comes with three test users:
+- username: "user", password: "user" (customer type)
+- username: "admin", password: "admin" (admin type)
+- username: "test", password: "admin" (admin type)
+
 ### Adminer
 Adminer UI to administrate the database is available at http://localhost:8081
 

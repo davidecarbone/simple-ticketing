@@ -1,6 +1,6 @@
 <?php
 
-namespace SimpleTicketing\Ticket;
+namespace SimpleTicketing\Ticket\Exception;
 
 class TicketOwnershipException extends \DomainException
 {

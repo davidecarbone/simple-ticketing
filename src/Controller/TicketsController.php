@@ -4,12 +4,12 @@ namespace SimpleTicketing\Controller;
 
 use SimpleTicketing\Authentication\JWT;
 use SimpleTicketing\Repository\TicketRepository;
-use SimpleTicketing\Ticket\InvalidTicketException;
-use SimpleTicketing\Ticket\InvalidTicketStateException;
+use SimpleTicketing\Ticket\Exception\InvalidTicketException;
+use SimpleTicketing\Ticket\Exception\InvalidTicketStateException;
 use SimpleTicketing\Ticket\Ticket;
 use SimpleTicketing\Ticket\TicketId;
 use SimpleTicketing\Ticket\TicketMessage;
-use SimpleTicketing\Ticket\TicketOwnershipException;
+use SimpleTicketing\Ticket\Exception\TicketOwnershipException;
 use SimpleTicketing\Ticket\TicketStatus;
 use SimpleTicketing\User\User;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;

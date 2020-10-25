@@ -3,8 +3,8 @@
 namespace SimpleTicketing\Tests\Unit\Ticket;
 
 use PHPUnit\Framework\TestCase;
+use SimpleTicketing\Ticket\Exception\TicketStatusException;
 use SimpleTicketing\Ticket\TicketStatus;
-use SimpleTicketing\Ticket\TicketStatusException;
 
 class TicketStatusTest extends TestCase
 {

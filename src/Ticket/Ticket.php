@@ -2,6 +2,9 @@
 
 namespace SimpleTicketing\Ticket;
 
+use SimpleTicketing\Ticket\Exception\ForbiddenTicketAssignationException;
+use SimpleTicketing\Ticket\Exception\InvalidTicketStateException;
+use SimpleTicketing\Ticket\Exception\TicketOwnershipException;
 use SimpleTicketing\User\User;
 use SimpleTicketing\User\UserId;
 

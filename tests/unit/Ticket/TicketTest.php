@@ -3,11 +3,11 @@
 namespace SimpleTicketing\Tests\Unit\Ticket;
 
 use PHPUnit\Framework\TestCase;
-use SimpleTicketing\Ticket\ForbiddenTicketAssignationException;
-use SimpleTicketing\Ticket\InvalidTicketStateException;
+use SimpleTicketing\Ticket\Exception\ForbiddenTicketAssignationException;
+use SimpleTicketing\Ticket\Exception\InvalidTicketStateException;
 use SimpleTicketing\Ticket\Ticket;
 use SimpleTicketing\Ticket\TicketMessage;
-use SimpleTicketing\Ticket\TicketOwnershipException;
+use SimpleTicketing\Ticket\Exception\TicketOwnershipException;
 use SimpleTicketing\Ticket\TicketStatus;
 use SimpleTicketing\User\User;
 use SimpleTicketing\User\UserId;

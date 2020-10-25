@@ -2,6 +2,8 @@
 
 namespace SimpleTicketing\Ticket;
 
+use SimpleTicketing\Ticket\Exception\TicketStatusException;
+
 final class TicketStatus
 {
 	public const NEW = 'Nuovo';

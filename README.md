@@ -19,6 +19,8 @@ This will run three containers with:
  
 The web container will also execute migrations to provide some test tickets, along with some test users.
 
+IMPORTANT: Docker will use ports 8080, 8081 and 8082. Make sure they are available before building the containers.
+
 NOTE: the very first build of containers with all requirements may take a while depending on your connection.
 
 ### Documentation

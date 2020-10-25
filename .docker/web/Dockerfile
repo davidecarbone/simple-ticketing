@@ -7,7 +7,7 @@ COPY composer.lock /var/www/html/
 
 RUN pecl config-set verbose 0
 RUN docker-php-ext-install mysqli pdo pdo_mysql
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && composer install
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=1.10.16 && composer install
 
 COPY . /var/www/html/
 COPY .docker/vhost.conf /etc/apache2/sites-available/000-default.conf
